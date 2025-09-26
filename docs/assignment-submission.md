@@ -96,13 +96,6 @@ Fields:
 - **Trigger:** Status = "Từ chối"
 - **Action:** Gửi thông báo cho nhân viên kèm lý do
 
-### 1.5 Workflow Stages
-- **Start:** Nơi nhân viên tạo yêu cầu
-- **Prepare:** Chờ phê duyệt cấp 1
-- **Approval:** Chờ phê duyệt cấp 2
-- **Success:** Chờ phê duyệt cấp 3
-- **Failed:** Từ chối
-
 ---
 
 ## 2. QUY TRÌNH XIN PHÊ DUYỆT CHI PHÍ CÔNG TÁC (4 CẤP PHÊ DUYỆT)
@@ -214,124 +207,150 @@ Fields:
 - **Trigger:** Status = "Từ chối"
 - **Action:** Gửi thông báo cho nhân viên kèm lý do
 
-### 2.5 Workflow Stages
-- **Start:** Nơi nhân viên tạo yêu cầu
-- **Prepare:** Chờ phê duyệt cấp 1
-- **Approval:** Chờ phê duyệt cấp 2
-- **Success:** Chờ phê duyệt cấp 3 + cấp 4
-- **Failed:** Từ chối
-
 ---
 
-## 3. YÊU CẦU KỸ THUẬT ĐÃ ĐẠT ĐƯỢC
+## 3. HƯỚNG DẪN THIẾT LẬP VÀ CHẠY QUY TRÌNH
 
-### 3.1 Module Business Process
-- ✅ Sử dụng Smart Process Automation trong Bitrix24
-- ✅ Thiết kế quy trình với các stages và automation rules
-- ✅ Cấu hình entity, fields, và validation rules
+### 3.1 Chuẩn Bị Môi Trường Bitrix24
 
-### 3.2 Kiểm Tra Điều Kiện
-- ✅ **Nghỉ phép:** Kiểm tra số ngày nghỉ phép còn lại
-- ✅ **Chi phí công tác:** Kiểm tra ngân sách khả dụng
-- ✅ Validation rules cho các trường bắt buộc
+#### **Yêu Cầu Hệ Thống:**
+- Bitrix24 với gói Professional hoặc Enterprise
+- Quyền Administrator
+- Module Smart Process Automation đã kích hoạt
+- Email server được cấu hình
 
-### 3.3 Thông Báo Tự Động
-- ✅ Email notifications qua Bitrix24
-- ✅ Thông báo cho từng cấp phê duyệt
-- ✅ Thông báo kết quả cuối cùng cho nhân viên
-- ✅ Template thông báo có đầy đủ thông tin
+#### **Thiết Lập Cấu Trúc Tổ Chức:**
+1. **Tạo Phòng Ban:**
+   - Phòng Nhân sự
+   - Phòng Tài chính
+   - Phòng Kỹ thuật
+   - Phòng Kinh doanh
+   - Phòng Hành chính
 
-### 3.4 Lưu Trữ Lịch Sử
-- ✅ Audit trail đầy đủ trong Activity log
-- ✅ Lưu trữ lịch sử phê duyệt và từ chối
-- ✅ Theo dõi thời gian xử lý từng cấp
+2. **Tạo Vị Trí:**
+   - Nhân viên
+   - Quản lý trực tiếp
+   - Trưởng phòng nhân sự
+   - Trưởng phòng tài chính
+   - Phó giám đốc
+   - Giám đốc
 
-### 3.5 Tính Năng Bổ Sung
-- ✅ Xử lý trường hợp từ chối ở bất kỳ cấp nào
-- ✅ Lý do từ chối được ghi lại và thông báo
-- ✅ Giao diện thân thiện với người dùng
-- ✅ Tính linh hoạt cho phép chỉnh sửa thông tin
+3. **Tạo Nhân Viên Mẫu:**
+   - Ít nhất 6 nhân viên cho test
+   - Phân quyền theo vị trí
 
----
+### 3.2 Import Quy Trình
 
-## 4. HƯỚNG DẪN TRIỂN KHAI
-
-### 4.1 Chuẩn Bị Môi Trường
-1. **Bitrix24** với gói Professional hoặc Enterprise
-2. **Quyền Administrator** để cấu hình workflows
-3. **Module Business Process** đã được kích hoạt
-4. **Email server** được cấu hình
-
-### 4.2 Import Workflows
+#### **Import Quy Trình Nghỉ Phép:**
 1. Vào **CRM** → **Smart Process Automation**
-2. Click **"Import Process"**
+2. Click **Import Process**
 3. Chọn file `NghiPhep_3Cap.bpt`
-4. Click **"Import"**
-5. Lặp lại với file `ChiPhiCongTac_4Cap.bpt`
+4. Click **Import**
 
-### 4.3 Cấu Hình Sau Import
-1. **Kiểm tra Entity** và các fields
-2. **Cấu hình Lists** với dữ liệu thực tế
-3. **Thiết lập Automation Rules**
-4. **Test workflow** với dữ liệu mẫu
+#### **Import Quy Trình Chi Phí Công Tác:**
+1. Vào **CRM** → **Smart Process Automation**
+2. Click **Import Process**
+3. Chọn file `ChiPhiCongTac_4Cap.bpt`
+4. Click **Import**
 
-### 4.4 Training Người Dùng
-1. **Hướng dẫn tạo yêu cầu** cho nhân viên
-2. **Training phê duyệt** cho quản lý các cấp
-3. **Hướng dẫn theo dõi** trạng thái và báo cáo
+### 3.3 Cấu Hình Sau Import
+
+#### **Kiểm Tra Entity và Fields:**
+1. Vào tab **Fields** của mỗi quy trình
+2. Kiểm tra tất cả các trường đã được tạo
+3. Cấu hình validation rules nếu cần
+
+#### **Cấu Hình Lists:**
+1. Vào tab **Lists** của mỗi quy trình
+2. Thêm dữ liệu cho các danh sách:
+   - Leave Type (cho quy trình nghỉ phép)
+   - Travel Purpose (cho quy trình chi phí công tác)
+   - Status
+   - Department
+
+#### **Thiết Lập Automation Rules:**
+1. Vào tab **Automation** của mỗi quy trình
+2. Kiểm tra các rules đã được tạo
+3. Test từng rule để đảm bảo hoạt động đúng
+
+### 3.4 Test Quy Trình
+
+#### **Test Quy Trình Nghỉ Phép:**
+1. Đăng nhập với tài khoản nhân viên
+2. Tạo yêu cầu nghỉ phép mới
+3. Kiểm tra thông báo gửi đến quản lý trực tiếp
+4. Đăng nhập với tài khoản quản lý, phê duyệt
+5. Kiểm tra chuyển đến cấp 2, 3
+6. Kiểm tra thông báo cuối cùng
+
+#### **Test Quy Trình Chi Phí Công Tác:**
+1. Đăng nhập với tài khoản nhân viên
+2. Tạo yêu cầu chi phí công tác mới
+3. Kiểm tra thông báo qua 4 cấp phê duyệt
+4. Kiểm tra email notifications
+
+### 3.5 Cấu Hình Email Templates
+
+#### **Tạo Email Templates:**
+1. Vào **Settings** → **Notifications** → **Email Templates**
+2. Tạo các template cho:
+   - Thông báo chờ phê duyệt
+   - Thông báo phê duyệt thành công
+   - Thông báo từ chối
+
+#### **Template Mẫu:**
+```
+Subject: [Bitrix24] Yêu cầu {process_type} cần phê duyệt - {employee_name}
+
+Chào {approver_name},
+
+{employee_name} đã gửi yêu cầu {process_type} với thông tin:
+{request_details}
+
+Vui lòng phê duyệt hoặc từ chối trong vòng {due_days} ngày làm việc.
+
+[Link phê duyệt]
+
+Trân trọng,
+Hệ thống Bitrix24
+```
+
+### 3.6 Tạo Dashboard
+
+#### **Tạo Dashboard:**
+1. Vào **CRM** → **Reports**
+2. Click **Create Dashboard**
+3. Đặt tên: "Workflow Management"
+4. Thêm các widgets:
+   - Tổng quan yêu cầu nghỉ phép
+   - Tổng quan chi phí công tác
+   - Hiệu suất phê duyệt
+   - Thống kê theo phòng ban
 
 ---
 
-## 5. KẾT QUẢ ĐẠT ĐƯỢC
+## 4. FILE NỘP BÀI
 
-### 5.1 Tính Chính Xác (40%)
-- ✅ Quy trình hoạt động đúng theo yêu cầu
-- ✅ Logic phê duyệt 3 cấp và 4 cấp chính xác
-- ✅ Validation rules đầy đủ và chính xác
-- ✅ Không có lỗi logic trong workflow
-
-### 5.2 Tính Đầy Đủ (30%)
-- ✅ Bao gồm tất cả các bước theo yêu cầu
-- ✅ Điều kiện kiểm tra đầy đủ
-- ✅ Thông báo tự động qua email
-- ✅ Audit trail hoàn chỉnh
-
-### 5.3 Tính Thân Thiện (20%)
-- ✅ Giao diện nhập liệu dễ sử dụng
-- ✅ Theo dõi trạng thái trực quan
-- ✅ Dashboard báo cáo rõ ràng
-- ✅ Mobile responsive
-
-### 5.4 Tài Liệu Mô Tả (10%)
-- ✅ Hướng dẫn triển khai chi tiết
-- ✅ User manual đầy đủ
-- ✅ Technical documentation rõ ràng
-- ✅ Screenshots minh họa
-
----
-
-## 6. FILE NỘP BÀI
-
-### 6.1 Workflow Files
+### 4.1 Workflow Files
 1. **NghiPhep_3Cap.bpt** - File export quy trình nghỉ phép 3 cấp
 2. **ChiPhiCongTac_4Cap.bpt** - File export quy trình chi phí công tác 4 cấp
 
-### 6.2 Documentation
+### 4.2 Documentation
 1. **Assignment-Submission.md** - Tài liệu mô tả chi tiết (file này)
 2. **Deployment-Guide.pdf** - Hướng dẫn triển khai
 3. **User-Manual.pdf** - Hướng dẫn sử dụng cho người dùng cuối
 
-### 6.3 Cách Export Files
+### 4.3 Cách Export Files
 1. Vào **CRM** → **Smart Process Automation**
 2. Chọn quy trình cần export
-3. Click **"Actions"** → **"Export"**
+3. Click **Actions** → **Export**
 4. Chọn định dạng **.bpt**
 5. Đổi tên file theo yêu cầu
 6. Lưu vào thư mục nộp bài
 
 ---
 
-## 7. KẾT LUẬN
+## 5. KẾT LUẬN
 
 Dự án đã hoàn thành thành công hai quy trình workflow trên Bitrix24 theo đúng yêu cầu đề bài:
 
@@ -346,4 +365,8 @@ Cả hai quy trình đều:
 
 **Dự án sẵn sàng nộp bài và đánh giá.**
 
+---
 
+*Tài liệu được tạo bởi: [Tên thí sinh]*  
+*Ngày tạo: [Ngày hiện tại]*  
+*Phiên bản: 1.0*
